@@ -47,8 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cambios.cs" />
+    <Compile Include="Consul_Moeda.cs" />
     <Compile Include="Info.cs" />
+    <Compile Include="Moeda.cs" />
     <Compile Include="Motd.cs" />
+    <Compile Include="Mtd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query.cs" />
