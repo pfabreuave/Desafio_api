@@ -6,21 +6,16 @@ namespace Dasafio_Api
 {
     class Program
     {
-        public static object MessageBox { get; private set; }
-
         static void Main(string[] args)
         {
             Consul_Moeda consul_Moeda = new Consul_Moeda();
             Console.ForegroundColor = ConsoleColor.Red;
-
             Console.Write("\n▒▒▒▒▒▒▒▒▒▒▒▒ SERVIÇO DE CÂMBIO ▒▒▒▒▒▒▒▒▒▒▒▒" +
                             "\n              SEJA BEM-VINDO");
             Console.ForegroundColor = ConsoleColor.Green;
-
             string mensaje = " ";
             Console.Write("\n\nVerifique as moedas disponíveis digitando 1: ");
             string m_from = Console.ReadLine();
-
             if (m_from == "1")
             {
                 var valido = consul_Moeda.ValidaMDAAsync(m_from);
@@ -60,7 +55,12 @@ namespace Dasafio_Api
                 mensaje += "\nOrigem e Destino devem ser diferentes";
             } 
             Console.Write("\tValor a cambiar:  ");
-            int m_valor = Convert.ToInt32(Console.ReadLine());
+            int m_valor;
+            while (!int.TryParse(Console.ReadLine(), out m_valor))
+            {
+                Console.WriteLine("Insira apenas números inteiros");
+                Console.Write("\tValor a cambiar: ");
+            }
             if (m_valor < 1)
             {
                 mensaje += "\nO valor deve ser maior que 0";
@@ -71,10 +71,8 @@ namespace Dasafio_Api
                 Console.WriteLine("\t" + mensaje);
                 Console.ReadLine();
             }
-           
             string buscar = "from=" + m_from + "&to=" + m_to + "&amount=" + m_valor;
             string strURL = "https://api.exchangerate.host/convert?" + buscar;
-            //string strURL = "https://api.exchangerate.host/convert?from=USD&to=BRL&amount=100.0";
             if (mensaje == " ")
             {
                 using (HttpClient client = new HttpClient())
@@ -100,7 +98,7 @@ namespace Dasafio_Api
                             Console.ReadLine();
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Console.WriteLine("Sua solicitação não pôde ser executada");
                         Console.ReadLine();
