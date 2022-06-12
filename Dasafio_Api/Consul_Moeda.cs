@@ -9,11 +9,36 @@ namespace Dasafio_Api
     {
         public async Task<string> ValidaMDAAsync(string moeda)
         {
+            int cuenta_monedas = 0;
+            string mensaje = "";
             string validacion;
             HttpClient client = new HttpClient { BaseAddress = new Uri("https://api.exchangerate.host/latest") };
             var response = await client.GetAsync("Cambios");
             var content = await response.Content.ReadAsStringAsync();
             var Moeda = JsonConvert.DeserializeObject<Moeda>(content);
+            if (moeda == "1")
+            {
+                foreach (var item in Moeda.Rates)
+                {
+                    if (cuenta_monedas == 0)
+                    {
+                        mensaje += "\n" + item.Key + " ";
+                        cuenta_monedas++;
+                    }
+                    else
+                    {
+                        mensaje += "" + item.Key + " ";
+                        cuenta_monedas++;
+                        if (cuenta_monedas > 10)
+                        {
+                            cuenta_monedas = 0;
+                        }
+                    }
+                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(mensaje);
+            }
+
             if (Moeda.Rates.ContainsKey(moeda))
             {
                 validacion = "encontro";

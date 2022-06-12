@@ -13,21 +13,30 @@ namespace Dasafio_Api
             Consul_Moeda consul_Moeda = new Consul_Moeda();
             Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.Write("\n▒▒▒▒▒▒▒▒▒▒▒▒ SERVIÇO DE CÂMBIO ▒▒▒▒▒▒▒▒▒▒▒" +
+            Console.Write("\n▒▒▒▒▒▒▒▒▒▒▒▒ SERVIÇO DE CÂMBIO ▒▒▒▒▒▒▒▒▒▒▒▒" +
                             "\n              SEJA BEM-VINDO");
             Console.ForegroundColor = ConsoleColor.Green;
 
             string mensaje = " ";
-            Console.Write("\n\n\tMoneda Origen:    ");
+            Console.Write("\n\nVerifique as moedas disponíveis digitando 1: ");
             string m_from = Console.ReadLine();
+
+            if (m_from == "1")
+            {
+                var valido = consul_Moeda.ValidaMDAAsync(m_from);
+                Console.ReadLine();
+            }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\tMoneda Origen:    ");
+            m_from = Console.ReadLine();
             if (m_from == null || m_from.Length  != 3)
             {
                 mensaje += "\nErro na moeda origen, verifique";
             }
             else
             {
-                var valid = consul_Moeda.ValidaMDAAsync(m_from);
-                if (valid.Result != "encontro")
+                var valido = consul_Moeda.ValidaMDAAsync(m_from);
+                if (valido.Result != "encontro")
                 {
                     mensaje += "\n" + m_from + " não está registrado";
                 }
@@ -40,8 +49,8 @@ namespace Dasafio_Api
             }
             else
             {
-                var valid = consul_Moeda.ValidaMDAAsync(m_to);
-                if (valid.Result != "encontro")
+                var valido = consul_Moeda.ValidaMDAAsync(m_to);
+                if (valido.Result != "encontro")
                 {
                     mensaje += "\n" + m_to + " não está registrado";
                 }
