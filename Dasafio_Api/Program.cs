@@ -10,11 +10,11 @@ namespace Dasafio_Api
         {
             Consul_Moeda consul_Moeda = new Consul_Moeda();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("\n▒▒▒▒▒▒▒▒▒▒▒▒ SERVIÇO DE CÂMBIO ▒▒▒▒▒▒▒▒▒▒▒▒" +
-                            "\n              SEJA BEM-VINDO");
+            Console.Write("\n\t\t▒▒▒▒▒▒▒▒▒▒▒▒ SERVIÇO DE CÂMBIO ▒▒▒▒▒▒▒▒▒▒▒▒" +
+                            "\n\t\t              SEJA BEM-VINDO");
             Console.ForegroundColor = ConsoleColor.Green;
             string mensaje = " ";
-            Console.Write("\n\nVerifique as moedas disponíveis digitando 1: ");
+            Console.Write("\n\n\t\tVerifique as moedas disponíveis digitando 1: ");
             string m_from = Console.ReadLine();
             if (m_from == "1")
             {
@@ -22,53 +22,53 @@ namespace Dasafio_Api
                 Console.ReadLine();
             }
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("\n\tMoneda Origen:    ");
+            Console.Write("\n\t\t\tMoneda Origen:    ");
             m_from = Console.ReadLine();
             if (m_from == null || m_from.Length  != 3)
             {
-                mensaje += "\nErro na moeda origen, verifique";
+                mensaje += "\n\t\tErro na moeda origen, verifique";
             }
             else
             {
                 var valido = consul_Moeda.ValidaMDAAsync(m_from);
                 if (valido.Result != "encontro")
                 {
-                    mensaje += "\n" + m_from + " não está registrado";
+                    mensaje += "\n\t\t" + m_from + " não está registrado";
                 }
             }
-            Console.Write("\tMoneda Destino:   "); 
+            Console.Write("\t\t\tMoneda Destino:   "); 
             string m_to = Console.ReadLine();
             if (m_to == null || m_to.Length != 3)
             {
-                mensaje += "\nerro na moeda de destino, verifique";
+                mensaje += "\n\t\terro na moeda de destino, verifique";
             }
             else
             {
                 var valido = consul_Moeda.ValidaMDAAsync(m_to);
                 if (valido.Result != "encontro")
                 {
-                    mensaje += "\n" + m_to + " não está registrado";
+                    mensaje += "\n\t\t" + m_to + " não está registrado";
                 }
             }
             if (m_from == m_to)
             {
-                mensaje += "\nOrigem e Destino devem ser diferentes";
+                mensaje += "\n\t\tOrigem e Destino devem ser diferentes";
             } 
-            Console.Write("\tValor a cambiar:  ");
+            Console.Write("\t\t\tValor a cambiar:  ");
             int m_valor;
             while (!int.TryParse(Console.ReadLine(), out m_valor))
             {
-                Console.WriteLine("Insira apenas números inteiros");
-                Console.Write("\tValor a cambiar: ");
+                Console.WriteLine("\t\tInsira apenas números inteiros");
+                Console.Write("\t\t\tValor a cambiar: ");
             }
             if (m_valor < 1)
             {
-                mensaje += "\nO valor deve ser maior que 0";
+                mensaje += "\n\t\tO valor deve ser maior que 0";
             }
             if (mensaje != " ")
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("\t" + mensaje);
+                Console.WriteLine("\t\t\t" + mensaje);
                 Console.ReadLine();
             }
             string buscar = "from=" + m_from + "&to=" + m_to + "&amount=" + m_valor;
@@ -86,21 +86,21 @@ namespace Dasafio_Api
                             var cambios = JsonConvert.DeserializeObject<Cambios>(result);
                             decimal decimalValue = decimal.Round((decimal)cambios.Result, 2);
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("\n" + cambios.Query.From + " " + cambios.Query.Amount + " => " + cambios.Query.To + " " + decimalValue);
+                            Console.WriteLine("\n\t\t" + cambios.Query.From + " " + cambios.Query.Amount + " => " + cambios.Query.To + " " + decimalValue);
                             Console.ForegroundColor = ConsoleColor.Green;
                             decimalValue = decimal.Round((decimal)cambios.Info.Rate, 6);
-                            Console.WriteLine("Taxa: " + decimalValue);
+                            Console.WriteLine("\t\tTaxa: " + decimalValue);
                             Console.ReadLine();
                         }
                         else
                         {
-                            Console.WriteLine("Sua solicitação não pôde ser executada");
+                            Console.WriteLine("\t\tSua solicitação não pôde ser executada");
                             Console.ReadLine();
                         }
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Sua solicitação não pôde ser executada");
+                        Console.WriteLine("\t\tSua solicitação não pôde ser executada");
                         Console.ReadLine();
                     }
                 }

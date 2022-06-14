@@ -22,7 +22,7 @@ namespace Dasafio_Api
                 {
                     if (cuenta_monedas == 0)
                     {
-                        mensaje += "\n" + item.Key + " ";
+                        mensaje += "\n\t\t" + item.Key + " ";
                         cuenta_monedas++;
                     }
                     else
